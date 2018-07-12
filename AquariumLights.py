@@ -1,9 +1,11 @@
 import time
+import logging
+from logging.handlers import TimedRotatingFileHandler
 try:
     import RPi.GPIO as GPIO
 except:
     import dummyGPIO as GPIO
-
+GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(13,GPIO.OUT)
 GPIO.setup(5,GPIO.OUT)
@@ -15,6 +17,22 @@ NIGHT = 2
 VALID_TOGGLE_MODES = [OFF, DAY, NIGHT]
 
 TOGGLE_MODE_STR = ['off', 'day', 'night']
+
+#log_file = "/home/pi/Aquarium/meltz/Logs/logfile.log"
+log_file = r"c:\temp\aqlog.log"
+logger = logging.getLogger("Rotating Log")
+logger.setLevel(logging.DEBUG)
+
+handler = TimedRotatingFileHandler(log_file,
+                                    when="m",
+                                    interval=1,
+                                    backupCount=1)
+logger.addHandler(handler)
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+
+for i in range(1):
+    logger.info("This is a test!")
+
 
 class LightControl(object):
     def __init__(self): #Default settings
@@ -32,6 +50,7 @@ class LightControl(object):
 
     @schedule.setter
     def schedule(self, new_val):
+        logger.debug('set schedule ' + str(new_val))
         if len(new_val) != 24:
             raise(Exception('Schedule length must be 24!'))
 
@@ -137,6 +156,7 @@ class LightControl(object):
             GPIO.output(5,1)
             GPIO.output(13,1)
             print("DayLights: On")
+            logger.debug("Day Mode is Active")
 
     def nightlights_on(self): #Activates Nightlights
         if self._current_status != 'night':
@@ -145,25 +165,31 @@ class LightControl(object):
             GPIO.output(5,1)
             GPIO.output(13,0)
             print("NightLights: On")
+            logger.debug("Night Mode is Active")
 
     def lights_off(self): # Deactivates any light mode
         if self._current_status != 'off':
             self._current_status = 'off'
             GPIO.output(5,0)
             print("Lights: Off")
+            logger.debug("Off Mode is Active")
 
     def check(self):
         if self._auto == True:
             print('Auto Mode')
+            logger.debug("Auto Mode is Switched ON")
             self.light_logic()
         elif self._toggle == OFF:
             print('Toggle Mode Off')
+            logger.debug("Auto Mode is Toggled OFF")
             self.lights_off()
         elif self._toggle == DAY:
             print('Toggle Mode Day')
+            logger.debug("Day Mode is Toggled ON")
             self.daylights_on()
         elif self._toggle == NIGHT:
             print('Toggle Mode Night')
+            logger.debug("Night Mode is Toggled ON")
             self.nightlights_on()
 
     def light_logic(self):
