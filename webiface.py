@@ -3,12 +3,14 @@ import os
 import AquariumLights
 from flask import Flask, render_template, request, jsonify
 import logging
-logging.basicConfig(level=logging.DEBUG)
 
+rotating_handler = logging.getLogger("Rotating Log")
 
 lights_control = AquariumLights.LightControl()
 
 app = Flask(__name__)
+app.logger.setLevel(logging.DEBUG)
+app.logger.addHandler(rotating_handler)
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -30,7 +32,6 @@ def main():
     templateData = {
         'config_state': lights_control.get_config_state()
     }
-    print("hello")
     # Pass the template data into the template main.html and return it to the user
     return render_template('main.html', **templateData)
 
@@ -58,14 +59,5 @@ def handleattr(key):
         return jsonify('success')
 
 if __name__ == "__main__":
-    extra_dirs = [r'C:\scratch\rpithing\templates',]
-    extra_files = extra_dirs[:]
-    for extra_dir in extra_dirs:
-        for dirname, dirs, files in os.walk(extra_dir):
-            for filename in files:
-                filename = os.path.join(dirname, filename)
-                if os.path.isfile(filename):
-                    extra_files.append(filename)
-
     app.debug = True
-    app.run(host='0.0.0.0', port=80, debug=True, extra_files=extra_files)
+    app.run(host='0.0.0.0', port=80, debug=True)

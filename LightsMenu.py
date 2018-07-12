@@ -1,5 +1,6 @@
 import time
 import AquariumLights
+logger = AquariumLights.logger
 from dot3k.menu import MenuOption
 
 class LightsMenu(MenuOption):

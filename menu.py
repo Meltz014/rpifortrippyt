@@ -1,25 +1,30 @@
+# built-ins
 import sys
-import time
-import webiface
 import threading
+import logging
+from time import sleep, time
+
+# dot3k imports
 import dothat.backlight as backlight
 import dothat.lcd as lcd
 import dothat.touch as nav
 from dot3k.menu import Menu, MenuOption
-from time import sleep, time
 
-
+# plugins
 sys.path.append ('/usr/local/lib/python2.7/dist-packages')
 sys.path.append('/home/pi/Pimoroni/displayotron/examples')
 sys.path.append('/home/pi/.local/lib/python2.7/site-packages')
 sys.path.append('/home/pi/Aquarium/')
-
-from LightsMenu import LightsMenu
 from plugins.clock import Clock
 from plugins.graph import IPAddress, GraphTemp, GraphCPU, GraphNetSpeed, GraphSysReboot, GraphSysShutdown
 from plugins.text import Text
 from plugins.utils import Backlight, Contrast
 
+# local imports
+import webiface
+from LightsMenu import LightsMenu
+
+logger = logging.getLogger("Rotating Log")
 
 class TimeoutManager():
     def __init__(self):
