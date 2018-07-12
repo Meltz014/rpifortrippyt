@@ -1,7 +1,8 @@
 import time
 import AquariumLights
-logger = AquariumLights.logger
+import logging
 from dot3k.menu import MenuOption
+logger = logging.getLogger("AquariumLights")
 
 class LightsMenu(MenuOption):
     def __init__(self, aquarium_lights): #Default settings

@@ -1,6 +1,5 @@
 import time
 import logging
-from logging.handlers import TimedRotatingFileHandler
 try:
     import RPi.GPIO as GPIO
 except:
@@ -18,17 +17,15 @@ VALID_TOGGLE_MODES = [OFF, DAY, NIGHT]
 
 TOGGLE_MODE_STR = ['off', 'day', 'night']
 
-#log_file = "/home/pi/Aquarium/meltz/Logs/logfile.log"
-log_file = r"c:\temp\aqlog.log"
-logger = logging.getLogger("Rotating Log")
-logger.setLevel(logging.DEBUG)
+log_file = "/home/pi/Aquarium/meltz/Logs/logfile.log"
+#log_file = r"c:\temp\aqlog.log"
+logger = logging.getLogger("AquariumLights")
 
-handler = TimedRotatingFileHandler(log_file,
-                                    when="m",
-                                    interval=1,
-                                    backupCount=1)
+handler = logging.FileHandler(log_file)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.setLevel(logging.DEBUG)
 logger.addHandler(handler)
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 for i in range(1):
     logger.info("This is a test!")

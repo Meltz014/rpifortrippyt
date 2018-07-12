@@ -24,7 +24,7 @@ from plugins.utils import Backlight, Contrast
 import webiface
 from LightsMenu import LightsMenu
 
-logger = logging.getLogger("Rotating Log")
+logger = logging.getLogger("AquariumLights")
 
 class TimeoutManager():
     def __init__(self):

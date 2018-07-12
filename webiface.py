@@ -4,13 +4,13 @@ import AquariumLights
 from flask import Flask, render_template, request, jsonify
 import logging
 
-rotating_handler = logging.getLogger("Rotating Log")
+logger = logging.getLogger("AquariumLights")
 
 lights_control = AquariumLights.LightControl()
 
-app = Flask(__name__)
+app = Flask('Flask')
 app.logger.setLevel(logging.DEBUG)
-app.logger.addHandler(rotating_handler)
+app.logger.addHandler(logger)
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -29,6 +29,7 @@ class InvalidUsage(Exception):
 
 @app.route("/")
 def main():
+    app.logger.debug('hello')
     templateData = {
         'config_state': lights_control.get_config_state()
     }
