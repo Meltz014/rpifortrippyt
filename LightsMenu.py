@@ -89,6 +89,7 @@ class LightsMenu(MenuOption):
         return True
 
     def redraw(self, menu):
+        self.update_options()
         if not self.running:
             return False
 

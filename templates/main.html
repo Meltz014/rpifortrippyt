@@ -80,7 +80,7 @@
         <div class="btn-group" data-toggle="buttons">
             <table class="table-check text-center">
                 <tr>
-                    {% for i in range(24) %}
+                    {% for i in range(12) %}
                     <td>
                         <label class="btn btn-primary checkbox-btn">
                             <input type="checkbox" id="check_{{i}}" state="off" autocomplete="off">
@@ -95,7 +95,22 @@
                     </td>
                 </tr>
                 <tr>
-                    {% for i in range(24) %}
+                    {% for i in range(12) %}
+                    <td><label for="check_{{i}}">{{i}}</label></td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for i in range(12,24) %}
+                    <td>
+                        <label class="btn btn-primary checkbox-btn">
+                            <input type="checkbox" id="check_{{i}}" state="off" autocomplete="off">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for i in range(12,24) %}
                     <td><label for="check_{{i}}">{{i}}</label></td>
                     {% endfor %}
                 </tr>
