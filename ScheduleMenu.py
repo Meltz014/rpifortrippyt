@@ -26,16 +26,16 @@ class LightsMenu(MenuOption):
         self.is_setup = False
 
     def left(self):
-        self.curr_val = (self.curr_val - 1) % len(AquariumLights.VALID_TOGGLE_MODES)
+        val = (self.curr_val - 1) % len(AquariumLights.VALID_TOGGLE_MODES)
         sch = self.lights_control._schedule
-        sch[ self.curr_idx ] = self.curr_val
+        sch[ self.curr_idx ] = val
         self.lights_control.schedule = sch
         return True
         
     def right(self):
-        self.curr_val = (self.curr_val + 1) % len(AquariumLights.VALID_TOGGLE_MODES)
+        val = (self.curr_val + 1) % len(AquariumLights.VALID_TOGGLE_MODES)
         sch = self.lights_control._schedule
-        sch[ self.curr_idx ] = self.curr_val
+        sch[ self.curr_idx ] = val
         self.lights_control.schedule = sch
         return True
         
