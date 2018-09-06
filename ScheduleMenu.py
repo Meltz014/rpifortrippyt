@@ -41,12 +41,12 @@ class LightsMenu(MenuOption):
         
 
     def up(self):
-        self.curr_idx = (self.curr_idx + 1) % len(self.schedule)
+        self.curr_idx = (self.curr_idx + 1) % len(self.lights_control._schedule)
         self.curr_val = self.lights_control._schedule[ self.curr_idx ]
         return True
 
     def down(self):
-        self.curr_idx = (self.curr_idx - 1) % len(self.schedule)
+        self.curr_idx = (self.curr_idx - 1) % len(self.lights_control._schedule)
         self.curr_val = self.lights_control._schedule[ self.curr_idx ]
         return True
 
