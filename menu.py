@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 import AstralMenu
 import webiface
@@ -112,7 +113,9 @@ def handle_cancel(pin):
     menu.cancel()
     tm.button_press()
 
-webworker = lambda: webiface.app.run(host='0.0.0.0', port=80, debug=False)
+webiface.app.debug = True
+webiface.app.secret_key = os.urandom(12)
+webworker = lambda: webiface.app.run(host='0.0.0.0', port=443, debug=True, ssl_context='adhoc')
 webthread = threading.Thread(target=webworker, daemon=True)
 webthread.start()
 
