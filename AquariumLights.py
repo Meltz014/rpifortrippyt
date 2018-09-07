@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import logging
 try:
     import RPi.GPIO as GPIO
@@ -17,7 +18,7 @@ VALID_TOGGLE_MODES = [OFF, DAY, NIGHT]
 
 TOGGLE_MODE_STR = ['off', 'day', 'night']
 
-log_file = "/home/pi/Aquarium/meltz/Logs/logfile.log"
+log_file = "/home/pi/Aquarium/meltz/Logs/logfile{}.log".format(datetime.now().strftime('%Y_%m_%d_%H_%M_%S'))
 #log_file = r"c:\temp\aqlog.log"
 logger = logging.getLogger("AquariumLights")
 
