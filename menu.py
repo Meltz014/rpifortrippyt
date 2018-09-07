@@ -113,16 +113,13 @@ def handle_cancel(pin):
     menu.cancel()
     tm.button_press()
 
-def menu_worker():
-    while True:
-        lights_control.check()
-        menu.redraw()
-        tm.check_timeout()
-        sleep(3.0 / 20)
-
-menuthread = threading.Thread(target=menu_worker, daemon=True)
-menuthread.start()
-
-webiface.app.debug = True
 webiface.app.secret_key = os.urandom(12)
-webiface.app.run(host='0.0.0.0', port=443, debug=True, ssl_context='adhoc')
+webworker = lambda: webiface.app.run(host='0.0.0.0', port=443, ssl_context='adhoc')
+webthread = threading.Thread(target=webworker, daemon=True)
+webthread.start()
+
+while True:
+    lights_control.check()
+    menu.redraw()
+    tm.check_timeout()
+    sleep(3.0 / 20)
