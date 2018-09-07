@@ -1,28 +1,25 @@
-# built-ins
 import sys
+import AstralMenu
+import webiface
 import threading
 import logging
-from time import sleep, time
-
-# dot3k imports
 import dothat.backlight as backlight
 import dothat.lcd as lcd
 import dothat.touch as nav
 from dot3k.menu import Menu, MenuOption
+from time import sleep, time
 
-# plugins
+
 sys.path.append ('/usr/local/lib/python2.7/dist-packages')
 sys.path.append('/home/pi/Pimoroni/displayotron/examples')
 sys.path.append('/home/pi/.local/lib/python2.7/site-packages')
-sys.path.append('/home/pi/Aquarium/')
+sys.path.append('/home/pi/Aquarium/meltz/')
+
+from LightsMenu import LightsMenu
 from plugins.clock import Clock
 from plugins.graph import IPAddress, GraphTemp, GraphCPU, GraphNetSpeed, GraphSysReboot, GraphSysShutdown
 from plugins.text import Text
 from plugins.utils import Backlight, Contrast
-
-# local imports
-import webiface
-from LightsMenu import LightsMenu
 
 logger = logging.getLogger("AquariumLights")
 
@@ -55,6 +52,7 @@ menu = Menu(
             'Aquarium': {
                 'Lighting': {
                     'Control': lights_menu,
+                    'Astral Data': AstralMenu.AstralInfo(),
                     }
                 },
         'Clock': Clock(backlight),
@@ -78,31 +76,37 @@ nav.bind_defaults(menu)
 
 @nav.on(nav.UP)
 def handle_up(pin):
+    logger.debug("Up button pressed")
     menu.up()
     tm.button_press()
 
 @nav.on(nav.DOWN)
 def handle_down(pin):
+    logger.debug("Down button pressed")
     menu.down()
     tm.button_press()
 
 @nav.on(nav.BUTTON)
 def handle_button(pin):
+    logger.debug("Enter button pressed")
     menu.select()
     tm.button_press()
 
 @nav.on(nav.LEFT)
 def handle_left(pin):
+    logger.debug("Left button pressed")
     menu.left()
     tm.button_press()
 
 @nav.on(nav.RIGHT)
 def handle_right(pin):
+    logger.debug("Right button pressed")
     menu.right()
     tm.button_press()
 
 @nav.on(nav.CANCEL)
 def handle_cancel(pin):
+    logger.debug("Cancel button pressed")
     menu.cancel()
     tm.button_press()
 
