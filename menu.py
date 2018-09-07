@@ -1,4 +1,5 @@
 import sys
+import time
 import AstralMenu
 import webiface
 import threading
@@ -22,6 +23,7 @@ from plugins.text import Text
 from plugins.utils import Backlight, Contrast
 
 logger = logging.getLogger("AquariumLights")
+
 
 class TimeoutManager():
     def __init__(self):

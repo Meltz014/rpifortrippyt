@@ -36,9 +36,9 @@ class LightControl(object):
     def __init__(self): #Default settings
         self._auto = True
         self._toggle = OFF
-        self._day_hour = 8
-        self._night_hour = 20
-        self._off_hour = 0
+        self._day_hour = 7
+        self._night_hour = 21
+        self._off_hour = 23
         self._current_status = 'unknown'
         self._schedule = [OFF for i in range(24)]
 
@@ -121,7 +121,7 @@ class LightControl(object):
         self.schedule_range()
 
     def schedule_range(self):
-        # set up schedule based on day_hour, night_hour, off_hour
+    # set up schedule based on day_hour, night_hour, off_hour
         if self._day_hour <= self._night_hour <= self._off_hour:
             self._schedule = [OFF for i in range(0, self._day_hour)] +\
                              [DAY for i in range(self._day_hour, self._night_hour)] +\
@@ -137,6 +137,7 @@ class LightControl(object):
                              [OFF for i in range(self._off_hour, self._day_hour)] +\
                              [DAY for i in range(self._day_hour, self._night_hour)] +\
                              [NIGHT for i in range(self._night_hour, 24)]
+
 
     def get_config_state(self):
         return {'auto': self._auto,
@@ -175,19 +176,15 @@ class LightControl(object):
     def check(self):
         if self._auto == True:
             print('Auto Mode')
-            logger.debug("Auto Mode is Switched ON")
             self.light_logic()
         elif self._toggle == OFF:
             print('Toggle Mode Off')
-            logger.debug("Auto Mode is Toggled OFF")
             self.lights_off()
         elif self._toggle == DAY:
             print('Toggle Mode Day')
-            logger.debug("Day Mode is Toggled ON")
             self.daylights_on()
         elif self._toggle == NIGHT:
             print('Toggle Mode Night')
-            logger.debug("Night Mode is Toggled ON")
             self.nightlights_on()
 
     def light_logic(self):
